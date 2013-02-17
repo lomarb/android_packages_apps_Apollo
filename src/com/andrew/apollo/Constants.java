@@ -19,7 +19,7 @@ public final class Constants {
             PLAYLIST_NAME_FAVORITES = "Favorites", PLAYLIST_NAME = "playlist",
             THEME_PACKAGE_NAME = "themePackageName", THEME_DESCRIPTION = "themeDescription",
             THEME_PREVIEW = "themepreview", THEME_TITLE = "themeTitle",
-            UP_STARTS_ALBUM_ACTIVITY = "upStartsAlbumActivity";
+            UP_STARTS_ALBUM_ACTIVITY = "upStartsAlbumActivity", TABS_ENABLED = "tabs_enabled";
 
     // Bundle & Intent type
     public final static String MIME_TYPE = "mimetype", INTENT_ACTION = "action", DATA_SCHEME = "file";

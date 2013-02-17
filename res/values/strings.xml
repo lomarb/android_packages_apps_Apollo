@@ -101,12 +101,14 @@
     <string name="apollo_themes">Select theme for Apollo</string>
     <string name="select_theme">Select your theme</string>
     <string name="version">Apollo Version</string>
+    <string name="tab_title">Tab Visibility</string>
 
     <!-- Settings keys -->
     <string name="key_themes" translatable="false">themepreview</string>
     <string name="key_themes_package" translatable="false">themePackageName</string>
     <string name="key_themes_preferences" translatable="false">themePrefences</string>
     <string name="key_build_version" translatable="false">build_version</string>
+    <string name="key_tabs_enabled" translatable="false">tabs_enabled</string>
 
     <!-- Theme layout Buttons -->
     <string name="apply_theme">Apply theme</string>
@@ -121,12 +123,12 @@
     <string name="overwrite">Overwrite</string>
 
     <!-- Tabs -->
-    <string name="tab_recent">RECENT</string>
-    <string name="tab_artists">ARTISTS</string>
-    <string name="tab_albums">ALBUMS</string>
-    <string name="tab_songs">SONGS</string>
-    <string name="tab_playlists">PLAYLISTS</string>
-    <string name="tab_genres">GENRES</string>
+    <string name="tab_recent">Recent</string>
+    <string name="tab_artists">Artists</string>
+    <string name="tab_albums">Albums</string>
+    <string name="tab_songs">Songs</string>
+    <string name="tab_playlists">Playlists</string>
+    <string name="tab_genres">Genres</string>
 
     <!-- External file dialog -->
     <string name="play_external_question_msg">Select the action to apply to: \n\n<b><xliff:g id="name">%s</xliff:g></b></string>

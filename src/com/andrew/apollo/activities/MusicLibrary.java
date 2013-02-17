@@ -4,13 +4,19 @@
 
 package com.andrew.apollo.activities;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import android.content.ComponentName;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
 import android.support.v4.app.FragmentActivity;
@@ -40,6 +46,7 @@ import com.andrew.apollo.utils.ThemeUtils;
 import static com.andrew.apollo.Constants.MIME_TYPE;
 import static com.andrew.apollo.Constants.PLAYLIST_RECENTLY_ADDED;
 import static com.andrew.apollo.Constants.THEME_ITEM_BACKGROUND;
+import static com.andrew.apollo.Constants.TABS_ENABLED;
 
 /**
  * @author Andrew Neal
@@ -67,9 +74,6 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         // Hide the ActionBar
         getActionBar().hide();
 
-        // Important!
-        initPager();
-
         // Update the BottomActionBar
         initBottomActionBar();
         super.onCreate(icicle);
@@ -87,6 +91,10 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
 
     @Override
     protected void onStart() {
+
+        // Important!
+        initPager();
+        
         // Bind to Service
         mToken = MusicUtils.bindToService(this, this);
 
@@ -116,18 +124,38 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         Bundle bundle = new Bundle();
         bundle.putString(MIME_TYPE, Audio.Playlists.CONTENT_TYPE);
         bundle.putLong(BaseColumns._ID, PLAYLIST_RECENTLY_ADDED);
+        
+        //Get tab visibility preferences
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaults = new HashSet<String>(Arrays.asList(
+        		getResources().getStringArray(R.array.tab_titles)
+        	));
+        Set<String> tabs_set = sp.getStringSet(TABS_ENABLED,defaults);
+        //if its empty fill reset it to full defaults
+        	//stops app from crashing when no tabs are shown
+        	//TODO:rewrite activity to not crash when no tabs are chosen to show
+        if(tabs_set.size()==0)
+        	tabs_set = defaults;
+        
+        //Only show tabs that were set in preferences
         // Recently added tracks
-        mPagerAdapter.addFragment(new RecentlyAddedFragment(bundle));
+        if(tabs_set.contains("Recent"))
+        	mPagerAdapter.addFragment(new RecentlyAddedFragment(bundle));
         // Artists
-        mPagerAdapter.addFragment(new ArtistsFragment());
+        if(tabs_set.contains("Artists"))
+        	mPagerAdapter.addFragment(new ArtistsFragment());
         // Albums
-        mPagerAdapter.addFragment(new AlbumsFragment());
+        if(tabs_set.contains("Albums"))
+        	mPagerAdapter.addFragment(new AlbumsFragment());
         // // Tracks
-        mPagerAdapter.addFragment(new TracksFragment());
+        if(tabs_set.contains("Songs"))
+        	mPagerAdapter.addFragment(new TracksFragment());
         // // Playlists
-        mPagerAdapter.addFragment(new PlaylistsFragment());
+        if(tabs_set.contains("Playlists"))
+        	mPagerAdapter.addFragment(new PlaylistsFragment());
         // // Genres
-        mPagerAdapter.addFragment(new GenresFragment());
+        if(tabs_set.contains("Genres"))
+        	mPagerAdapter.addFragment(new GenresFragment());
 
         // Initiate ViewPager
         ViewPager mViewPager = (ViewPager)findViewById(R.id.viewPager);
