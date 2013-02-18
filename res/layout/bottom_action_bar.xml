@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/holo_selector"
+        android:paddingLeft="@dimen/bottom_action_bar_padding_left"
         android:orientation="horizontal" >
 
         <ImageView
@@ -48,24 +49,25 @@
                 style="@style/BottomActionBarText"
                 android:textColor="@color/transparent_black" />
         </LinearLayout>
-
-        <com.andrew.apollo.ui.widgets.BottomActionBarItem
-            android:id="@+id/bottom_action_bar_item_one"
+        
+        <ImageButton
+            android:id="@+id/bottom_action_bar_previous"
             style="@style/BottomActionBarItem"
-            android:contentDescription="@string/cd_favorite"
-            android:src="@drawable/apollo_holo_light_favorite_normal" />
+            android:contentDescription="@string/cd_previous"
+            android:src="@drawable/apollo_holo_light_previous" />
 
-        <com.andrew.apollo.ui.widgets.BottomActionBarItem
-            android:id="@+id/bottom_action_bar_item_two"
+        <ImageButton
+            android:id="@+id/bottom_action_bar_play"
             style="@style/BottomActionBarItem"
-            android:contentDescription="@string/cd_search"
-            android:src="@drawable/apollo_holo_light_search" />
+            android:contentDescription="@string/cd_play"
+            android:src="@drawable/apollo_holo_light_play" />
 
-        <com.andrew.apollo.ui.widgets.BottomActionBarItem
-            android:id="@+id/bottom_action_bar_item_three"
+        <ImageButton
+            android:id="@+id/bottom_action_bar_next"
             style="@style/BottomActionBarItem"
-            android:contentDescription="@string/cd_overflow"
-            android:src="@drawable/apollo_holo_light_overflow" />
+            android:contentDescription="@string/cd_next"
+            android:src="@drawable/apollo_holo_light_next" />        
+        
     </com.andrew.apollo.ui.widgets.BottomActionBar>
 
 </LinearLayout>

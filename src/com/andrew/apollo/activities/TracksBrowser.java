@@ -25,8 +25,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.andrew.apollo.BottomActionBarControlsFragment;
-import com.andrew.apollo.BottomActionBarFragment;
 import com.andrew.apollo.IApolloService;
 import com.andrew.apollo.R;
 import com.andrew.apollo.adapters.PagerAdapter;
@@ -60,6 +58,7 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 
     @Override
     protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
         // Landscape mode on phone isn't ready
         if (!ApolloUtils.isTablet(this))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -85,9 +84,6 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
         // Important!
         initPager();
 
-        // Update the BottomActionBar
-        initBottomActionBar();
-        super.onCreate(icicle);
     }
 
     @Override
@@ -263,17 +259,6 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
         // Theme chooser
         ThemeUtils.initThemeChooser(this, mViewPager, "viewpager", THEME_ITEM_BACKGROUND);
         ThemeUtils.setMarginDrawable(this, mViewPager, "viewpager_margin");
-    }
-
-    /**
-     * Initiate the BottomActionBar
-     */
-    private void initBottomActionBar() {
-        PagerAdapter pagerAdatper = new PagerAdapter(getSupportFragmentManager());
-        pagerAdatper.addFragment(new BottomActionBarFragment());
-        pagerAdatper.addFragment(new BottomActionBarControlsFragment());
-        ViewPager viewPager = (ViewPager)findViewById(R.id.bottomActionBarPager);
-        viewPager.setAdapter(pagerAdatper);
     }
 
     /**

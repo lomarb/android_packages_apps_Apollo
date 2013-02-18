@@ -2,7 +2,7 @@
 <resources>
 
     <!-- ViewPager margin width -->
-    <integer name="viewpager_margin_width">30</integer>
+    <integer name="viewpager_margin_width">0</integer>
 
     <!-- ListView album art size -->
     <integer name="listview_album_art">133</integer>

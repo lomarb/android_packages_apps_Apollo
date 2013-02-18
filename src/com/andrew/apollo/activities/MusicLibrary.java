@@ -9,22 +9,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.media.AudioManager;
+import android.media.audiofx.AudioEffect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
+import android.provider.MediaStore.Audio.AudioColumns;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 
-import com.andrew.apollo.BottomActionBarControlsFragment;
-import com.andrew.apollo.BottomActionBarFragment;
 import com.andrew.apollo.IApolloService;
 import com.andrew.apollo.R;
 import com.andrew.apollo.adapters.PagerAdapter;
@@ -35,6 +42,7 @@ import com.andrew.apollo.list.fragments.GenresFragment;
 import com.andrew.apollo.list.fragments.PlaylistsFragment;
 import com.andrew.apollo.list.fragments.RecentlyAddedFragment;
 import com.andrew.apollo.list.fragments.TracksFragment;
+import com.andrew.apollo.preferences.SettingsHolder;
 import com.andrew.apollo.service.ApolloService;
 import com.andrew.apollo.service.ServiceToken;
 import com.andrew.apollo.ui.widgets.ScrollableTabView;
@@ -55,9 +63,10 @@ import static com.andrew.apollo.Constants.TABS_ENABLED;
 public class MusicLibrary extends FragmentActivity implements ServiceConnection {
 
     private ServiceToken mToken;
-
+    private OnSharedPreferenceChangeListener listener;
     @Override
     protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
         // Landscape mode on phone isn't ready
         if (!ApolloUtils.isTablet(this))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -70,13 +79,19 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
 
         // Layout
         setContentView(R.layout.library_browser);
+        
+        // Important!
+        initPager();
+        
+        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        		// Important!
+                initPager();   
+        	}
+        };
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(listener);
 
-        // Hide the ActionBar
-        getActionBar().hide();
-
-        // Update the BottomActionBar
-        initBottomActionBar();
-        super.onCreate(icicle);
     }
 
     @Override
@@ -92,9 +107,6 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
     @Override
     protected void onStart() {
 
-        // Important!
-        initPager();
-        
         // Bind to Service
         mToken = MusicUtils.bindToService(this, this);
 
@@ -163,7 +175,7 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         mViewPager.setPageMarginDrawable(R.drawable.viewpager_margin);
         mViewPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(0);
 
         // Tabs
         initScrollableTabs(mViewPager);
@@ -186,15 +198,62 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         ThemeUtils.initThemeChooser(this, mScrollingTabs, "scrollable_tab_background",
                 THEME_ITEM_BACKGROUND);
     }
+    
+    /**
+     * Respond to clicks on actionbar options
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+	        case R.id.action_search:
+	            onSearchRequested();
+	            break;
+
+	        case R.id.action_settings:
+	        	startActivity(new Intent(this, SettingsHolder.class));
+	            break;
+
+	        case R.id.action_eqalizer:
+	        	Intent i = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+                i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MusicUtils.getCurrentAudioId());
+                startActivityForResult(i, 0);
+	            break;
+
+	        case R.id.action_shuffle_all:
+	        	shuffleAll();
+	            break;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
 
     /**
-     * Initiate the BottomActionBar
+     * Initiate the Top Actionbar
      */
-    private void initBottomActionBar() {
-        PagerAdapter pagerAdatper = new PagerAdapter(getSupportFragmentManager());
-        pagerAdatper.addFragment(new BottomActionBarFragment());
-        pagerAdatper.addFragment(new BottomActionBarControlsFragment());
-        ViewPager viewPager = (ViewPager)findViewById(R.id.bottomActionBarPager);
-        viewPager.setAdapter(pagerAdatper);
-    }
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.actionbar_top, menu);
+	    return true;
+	}
+	
+	/**
+     * Shuffle all the tracks
+     */
+    public void shuffleAll() {
+        Uri uri = Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = new String[] {
+            BaseColumns._ID
+        };
+        String selection = AudioColumns.IS_MUSIC + "=1";
+        String sortOrder = Audio.Media.DEFAULT_SORT_ORDER;
+        Cursor cursor = MusicUtils.query(this, uri, projection, selection, null, sortOrder);
+        if (cursor != null) {
+            MusicUtils.shuffleAll(this, cursor);
+            cursor.close();
+            cursor = null;
+        }
+    }    
+
 }

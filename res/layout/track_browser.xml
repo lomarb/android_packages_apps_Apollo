@@ -18,10 +18,13 @@
         android:layout_height="@dimen/bottom_action_bar_height"
         android:layout_alignParentBottom="true" >
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/bottomActionBarPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        
+        <fragment android:name="com.andrew.apollo.BottomActionBarFragment"
+            android:id="@+id/bottomactionbar_new"
+            android:layout_weight="1"
+			android:layout_width="match_parent"
+            android:layout_height="match_parent" /> 
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ import com.andrew.apollo.utils.ThemeUtils;
  * @author Andrew Neal
  */
 public class BottomActionBar extends LinearLayout implements OnClickListener, OnLongClickListener {
-
+	 
     public BottomActionBar(Context context) {
         super(context);
     }
@@ -71,29 +70,15 @@ public class BottomActionBar extends LinearLayout implements OnClickListener, On
             ImageView mAlbumArt = (ImageView)bottomActionBar
                     .findViewById(R.id.bottom_action_bar_album_art);
             ImageUtils.setAlbumImage(mAlbumArt, MusicUtils.getArtistName(), MusicUtils.getAlbumName());
-
-            // Favorite image
-            ImageButton mFavorite = (ImageButton)bottomActionBar
-                    .findViewById(R.id.bottom_action_bar_item_one);
-
-            MusicUtils.setFavoriteImage(mFavorite);
-
+            
             // Divider
             ImageView mDivider = (ImageView)activity
                     .findViewById(R.id.bottom_action_bar_info_divider);
-
-            ImageButton mSearch = (ImageButton)bottomActionBar
-                    .findViewById(R.id.bottom_action_bar_item_two);
-
-            ImageButton mOverflow = (ImageButton)bottomActionBar
-                    .findViewById(R.id.bottom_action_bar_item_three);
-
+            
             // Theme chooser
             ThemeUtils.setTextColor(activity, mTrackName, "bottom_action_bar_text_color");
             ThemeUtils.setTextColor(activity, mArtistName, "bottom_action_bar_text_color");
             ThemeUtils.setBackgroundColor(activity, mDivider, "bottom_action_bar_info_divider");
-            ThemeUtils.setImageButton(activity, mSearch, "apollo_search");
-            ThemeUtils.setImageButton(activity, mOverflow, "apollo_overflow");
         }
     }
 
@@ -118,4 +103,5 @@ public class BottomActionBar extends LinearLayout implements OnClickListener, On
         context.startActivity(new Intent(context, QuickQueue.class));
         return true;
     }
+    
 }
