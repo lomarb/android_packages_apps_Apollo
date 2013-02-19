@@ -3,7 +3,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/audio_player_seek_bar_padding" >
 
         <SeekBar
             android:id="@android:id/progress"

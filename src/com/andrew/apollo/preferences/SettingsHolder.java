@@ -6,36 +6,21 @@ package com.andrew.apollo.preferences;
 
 import java.util.List;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.andrew.apollo.IApolloService;
 import com.andrew.apollo.R;
-import com.andrew.apollo.activities.AudioPlayerHolder;
 import com.andrew.apollo.activities.MusicLibrary;
-import com.andrew.apollo.service.ApolloService;
-import com.andrew.apollo.service.ServiceToken;
-import com.andrew.apollo.utils.ImageUtils;
-import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.utils.ThemeUtils;
 
 import static com.andrew.apollo.Constants.APOLLO;
@@ -46,10 +31,7 @@ import static com.andrew.apollo.Constants.THEME_PREVIEW;
  *         using PreferenceFragment and theme chooser
  */
 @SuppressWarnings("deprecation")
-public class SettingsHolder extends PreferenceActivity implements ServiceConnection {
-
-    // Service
-    private ServiceToken mToken;
+public class SettingsHolder extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +44,9 @@ public class SettingsHolder extends PreferenceActivity implements ServiceConnect
 
         // Load the theme chooser
         initThemeChooser();
-
-        // ActionBar
-        initActionBar();
+        
+        //Enable up button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -75,85 +57,6 @@ public class SettingsHolder extends PreferenceActivity implements ServiceConnect
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder obj) {
-        MusicUtils.mService = IApolloService.Stub.asInterface(obj);
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-        MusicUtils.mService = null;
-    }
-
-    /**
-     * Update the ActionBar as needed
-     */
-    private final BroadcastReceiver mMediaStatusReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Update the ActionBar
-            initActionBar();
-        }
-
-    };
-
-    @Override
-    protected void onStart() {
-        // Bind to Service
-        mToken = MusicUtils.bindToService(this, this);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ApolloService.META_CHANGED);
-        filter.addAction(ApolloService.QUEUE_CHANGED);
-        filter.addAction(ApolloService.PLAYSTATE_CHANGED);
-
-        registerReceiver(mMediaStatusReceiver, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        // Unbind
-        if (MusicUtils.mService != null)
-            MusicUtils.unbindFromService(mToken);
-
-        unregisterReceiver(mMediaStatusReceiver);
-        super.onStop();
-    }
-
-    /**
-     * Update the ActionBar
-     */
-    public void initActionBar() {
-        // Custom ActionBar layout
-        View view = getLayoutInflater().inflate(R.layout.custom_action_bar, null);
-        // Show the ActionBar
-        getActionBar().setCustomView(view);
-        getActionBar().setTitle(R.string.settings);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
-        getActionBar().setDisplayShowCustomEnabled(true);
-
-        ImageView mAlbumArt = (ImageView)view.findViewById(R.id.action_bar_album_art);
-        TextView mTrackName = (TextView)view.findViewById(R.id.action_bar_track_name);
-        TextView mAlbumName = (TextView)view.findViewById(R.id.action_bar_album_name);
-
-        ImageUtils.setAlbumImage(mAlbumArt, MusicUtils.getArtistName(), MusicUtils.getAlbumName());
-
-        mTrackName.setText(MusicUtils.getTrackName());
-        mAlbumName.setText(MusicUtils.getAlbumName());
-
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                context.startActivity(new Intent(context, AudioPlayerHolder.class));
-                finish();
-            }
-        });
     }
 
     /**
