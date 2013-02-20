@@ -31,6 +31,6 @@ package com.andrew.apollo.lastfm.api;
  */
 public enum ImageSize {
 
-    LARGE, LARGESQUARE, ORIGINAL
+	SMALL, MEDIUM, LARGE, EXTRALARGE, MEGA
 
 }

@@ -83,14 +83,7 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         // Important!
         initPager();
         
-        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        		// Important!
-                initPager();   
-        	}
-        };
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(listener);
+       
 
     }
 
@@ -210,7 +203,7 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
 	            break;
 
 	        case R.id.action_settings:
-	        	startActivity(new Intent(this, SettingsHolder.class));
+	        	startActivityForResult(new Intent(this, SettingsHolder.class),0);
 	            break;
 
 	        case R.id.action_eqalizer:
@@ -229,6 +222,18 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         return true;
     }
 
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+    	Intent i = getBaseContext().getPackageManager()
+	             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
+    }   
+    
+    
+    
+    
     /**
      * Initiate the Top Actionbar
      */

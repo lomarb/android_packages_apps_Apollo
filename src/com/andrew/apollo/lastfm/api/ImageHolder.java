@@ -32,6 +32,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import android.util.Log;
+
 import com.andrew.apollo.utils.DomElement;
 
 /**
@@ -70,7 +72,7 @@ public abstract class ImageHolder {
             String attribute = image.getAttribute("size");
             ImageSize size = null;
             if (attribute == null) {
-                size = ImageSize.LARGESQUARE; 
+                size = ImageSize.LARGE; 
             } else {
                 try {
                     size = ImageSize.valueOf(attribute.toUpperCase(Locale.ENGLISH));

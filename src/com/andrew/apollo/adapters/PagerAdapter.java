@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.andrew.apollo.utils.RefreshableFragment;
 
 /**
  * @author Andrew Neal
  */
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
 
     private final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
 

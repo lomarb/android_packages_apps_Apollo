@@ -63,7 +63,7 @@ public class Image extends ImageHolder {
                 String attribute = image.getAttribute("name");
                 ImageSize size = null;
                 if (attribute == null) {
-                    size = ImageSize.LARGESQUARE;
+                    size = ImageSize.LARGE;
                 } else {
                     try {
                         size = ImageSize.valueOf(attribute.toUpperCase(Locale.ENGLISH));

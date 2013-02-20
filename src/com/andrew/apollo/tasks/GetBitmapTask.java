@@ -66,20 +66,8 @@ public abstract class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
     protected abstract String getImageUrl();
 
     protected abstract File getFile(Context context, String extension);
-
-    private File findCachedFile(Context context) {
-        for (String extension : IMAGE_EXTENSIONS) {
-            File file = getFile(context, extension);
-            if (file == null) {
-                return null;
-            }
-            if (file.exists()) {
-                if (ImageUtils.DEBUG) Log.d(TAG, "Cached file found: " + file.getAbsolutePath());
-                return file;
-            }
-        }
-        return null;
-    }
+    
+    protected abstract File findCachedFile(Context context);
 
     private File downloadImage(Context context) {
         String url = getImageUrl();

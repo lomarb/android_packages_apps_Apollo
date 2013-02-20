@@ -12,12 +12,19 @@ import com.andrew.apollo.utils.ImageUtils;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.Set;
 
 import static com.andrew.apollo.Constants.LASTFM_API_KEY;
 
 public class GetArtistImageTask extends GetBitmapTask {
 
     private final String TAG = "GetArtistImageTask";
+
+    private static final String EXTENSION_JPG = ".jpg";
+    private static final String EXTENSION_PNG = ".png";
+    private static final String EXTENSION_GIF = ".gif";
+
+    private static final String[] IMAGE_EXTENSIONS = new String[]{EXTENSION_JPG, EXTENSION_PNG, EXTENSION_GIF};
 
     private String mArtist;
 
@@ -37,6 +44,21 @@ public class GetArtistImageTask extends GetBitmapTask {
     }
 
     @Override
+    protected File findCachedFile(Context context) {
+        for (String extension : IMAGE_EXTENSIONS) {
+            File file = getFile(context, extension);
+            if (file == null) {
+                return null;
+            }
+            if (file.exists()) {
+                if (ImageUtils.DEBUG) Log.d(TAG, "Cached file found: " + file.getAbsolutePath());
+                return file;
+            }
+        }
+        return null;
+    }
+    
+    @Override
     protected String getImageUrl() {
         try {
             PaginatedResult<Image> images = Artist.getImages(this.mArtist, 2, 1, LASTFM_API_KEY);
@@ -46,7 +68,14 @@ public class GetArtistImageTask extends GetBitmapTask {
                 return null;
             }
             Image image = iterator.next();
-            return image.getImageURL(ImageSize.LARGESQUARE); //TODO: ensure that there is an image available in the specified size
+
+            Set<ImageSize> sizes = image.availableSizes();
+            if(sizes.contains(ImageSize.MEGA))
+            	return image.getImageURL(ImageSize.MEGA);
+            else if(sizes.contains(ImageSize.EXTRALARGE))
+            	return image.getImageURL(ImageSize.EXTRALARGE);
+            else 
+            	return image.getImageURL(ImageSize.LARGE);
         } catch (Exception e) {
             if (ImageUtils.DEBUG) Log.w(TAG, "Error when retrieving artist image url for \"" + mArtist + "\"", e);
             return null;

@@ -6,7 +6,7 @@ public class ImageUtils {
 
     private static ImageProvider imageProvider;
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static void setArtistImage(ImageView imageView, String artist) {
         getImageProvider().setArtistImage(imageView, artist);
