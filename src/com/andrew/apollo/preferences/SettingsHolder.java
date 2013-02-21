@@ -4,8 +4,12 @@
 
 package com.andrew.apollo.preferences;
 
+import java.io.IOException;
 import java.util.List;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,12 +19,14 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.andrew.apollo.R;
 import com.andrew.apollo.activities.MusicLibrary;
+import com.andrew.apollo.utils.ImageUtils;
 import com.andrew.apollo.utils.ThemeUtils;
 
 import static com.andrew.apollo.Constants.APOLLO;
@@ -41,7 +47,10 @@ public class SettingsHolder extends PreferenceActivity {
         // Load settings XML
         int preferencesResId = R.xml.settings;
         addPreferencesFromResource(preferencesResId);
-
+        
+        // Init delete cache option
+        deleteCache();
+        
         // Load the theme chooser
         initThemeChooser();
         
@@ -58,6 +67,39 @@ public class SettingsHolder extends PreferenceActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    
+
+    /**
+     * Removes all of the cache entries.
+     */
+    private void deleteCache() {
+        final Preference deleteCache = findPreference("delete_cache");
+        deleteCache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(final Preference preference) {
+                new AlertDialog.Builder(SettingsHolder.this).setMessage(R.string.delete_warning)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        	@Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                 try {
+									ImageUtils.deleteCache(getApplicationContext());
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+                            }
+                        }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+                return true;
+            }
+        });
+    }
+    
 
     /**
      * @param v

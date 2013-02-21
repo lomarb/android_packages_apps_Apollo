@@ -16,15 +16,23 @@
                 android:layout="@layout/theme_preview" />
         </PreferenceScreen>
         <MultiSelectListPreference
-	        android:dialogTitle="@string/tab_title"
+	        android:dialogTitle="@string/tab_visibility_title"
 	        android:key="@string/key_tabs_enabled"
-	        android:summary=""        
-	        android:title="@string/tab_title"
+	        android:summary="@string/tab_visibility_summary"        
+	        android:title="@string/tab_visibility_title"
 	        android:entries="@array/tab_titles"
 	        android:entryValues="@array/tab_titles"
 	        android:defaultValue="@array/tab_titles"
 	        android:capitalize="words"
 	        />	        
+    </PreferenceCategory>    
+    <PreferenceCategory android:title="@string/settings_storage_category" >
+
+        <!-- Delete cache -->
+        <Preference
+            android:key="delete_cache"
+            android:summary="@string/settings_delete_cache_summary"
+            android:title="@string/settings_delete_cache_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about" >
         <Preference

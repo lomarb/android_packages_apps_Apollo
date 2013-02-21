@@ -97,11 +97,16 @@
     <string name="about">About Apollo</string>
     <string name="eqalizer">Equalizer</string>
     <string name="header_interface">Interface</string>
+    <string name="settings_storage_category">Storage</string>
     <string name="themes">Themes</string>
     <string name="apollo_themes">Select theme for Apollo</string>
     <string name="select_theme">Select your theme</string>
     <string name="version">Apollo Version</string>
-    <string name="tab_title">Tab Visibility</string>
+    <string name="tab_visibility_title">Tab visibility</string>
+    <string name="tab_visibility_summary">Choose which tabs are displayed</string>
+    <string name="settings_delete_cache_title">Delete cache</string>
+    <string name="settings_delete_cache_summary">Remove all cached images</string>
+    <string name="delete_warning">This will permanently delete the cached image entries</string>
 
     <!-- Settings keys -->
     <string name="key_themes" translatable="false">themepreview</string>
