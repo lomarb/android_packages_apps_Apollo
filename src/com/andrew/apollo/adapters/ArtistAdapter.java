@@ -14,7 +14,6 @@ import com.andrew.apollo.grid.fragments.ArtistsFragment;
 import com.andrew.apollo.utils.ImageUtils;
 import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.views.ViewHolderGrid;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
@@ -46,9 +45,6 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         } else {
             viewholder = (ViewHolderGrid)convertView.getTag();
         }
-
-        // AQuery
-        final AQuery aq = new AQuery(view);
 
         // Artist Name
         String artistName = mCursor.getString(ArtistsFragment.mArtistNameIndex);

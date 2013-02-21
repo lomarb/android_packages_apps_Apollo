@@ -57,6 +57,7 @@ public class ThemeUtils {
      * @param item
      * @param themeType
      */
+	@SuppressWarnings("deprecation")
     public static void loadThemeResource(Resources themeResources, String themePackage,
             String item_name, View item, int themeType) {
         Drawable d = null;

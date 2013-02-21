@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.andrew.apollo.grid.fragments.QuickQueueFragment;
 import com.andrew.apollo.utils.ImageUtils;
 import com.andrew.apollo.views.ViewHolderQueue;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
@@ -40,9 +39,6 @@ public class QuickQueueAdapter extends SimpleCursorAdapter {
         } else {
             viewholder = (ViewHolderQueue)convertView.getTag();
         }
-
-        // AQuery
-        final AQuery aq = new AQuery(view);
 
         // Artist Name
         String artistName = mCursor.getString(QuickQueueFragment.mArtistIndex);

@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.AnimationDrawable;
@@ -48,6 +47,7 @@ public class ApolloUtils {
      * @param view
      * @param bitmap
      */
+	@SuppressWarnings("deprecation")
     public static void setBackground(View view, Bitmap bitmap) {
 
         if (bitmap == null) {

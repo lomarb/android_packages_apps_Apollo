@@ -13,7 +13,6 @@ import com.andrew.apollo.list.fragments.RecentlyAddedFragment;
 import com.andrew.apollo.utils.ImageUtils;
 import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.views.ViewHolderList;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
@@ -46,8 +45,6 @@ public class RecentlyAddedAdapter extends SimpleCursorAdapter {
         } else {
             viewholder = (ViewHolderList)convertView.getTag();
         }
-        // AQuery
-        final AQuery aq = new AQuery(convertView);
 
         // Track name
         String trackName = mCursor.getString(RecentlyAddedFragment.mTitleIndex);

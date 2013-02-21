@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -47,7 +46,6 @@ import com.andrew.apollo.service.ApolloService;
 import com.andrew.apollo.service.ServiceToken;
 import com.andrew.apollo.ui.widgets.ScrollableTabView;
 import com.andrew.apollo.utils.ApolloUtils;
-import com.andrew.apollo.utils.ImageCache;
 import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.utils.ThemeUtils;
 
@@ -63,7 +61,6 @@ import static com.andrew.apollo.Constants.TABS_ENABLED;
 public class MusicLibrary extends FragmentActivity implements ServiceConnection {
 
     private ServiceToken mToken;
-    private OnSharedPreferenceChangeListener listener;
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);

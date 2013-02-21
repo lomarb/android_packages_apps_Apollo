@@ -1,13 +1,11 @@
 package com.andrew.apollo.tasks;
 
 import android.content.Context;
-import android.content.CursorLoader;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Looper;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
 import android.util.Log;

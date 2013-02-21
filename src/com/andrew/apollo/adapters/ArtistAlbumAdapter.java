@@ -13,7 +13,6 @@ import com.andrew.apollo.list.fragments.ArtistAlbumsFragment;
 import com.andrew.apollo.utils.ImageUtils;
 import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.views.ViewHolderList;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
@@ -56,9 +55,6 @@ public class ArtistAlbumAdapter extends SimpleCursorAdapter {
         } else {
             viewholder = (ViewHolderList)convertView.getTag();
         }
-
-        // AQuery
-        AQuery aq = new AQuery(view);
 
         // Album name
         String albumName = mCursor.getString(ArtistAlbumsFragment.mAlbumNameIndex);

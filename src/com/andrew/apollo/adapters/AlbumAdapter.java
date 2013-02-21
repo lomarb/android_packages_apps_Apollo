@@ -13,7 +13,6 @@ import com.andrew.apollo.grid.fragments.AlbumsFragment;
 import com.andrew.apollo.utils.ImageUtils;
 import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.views.ViewHolderGrid;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
@@ -45,9 +44,6 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         } else {
             viewholder = (ViewHolderGrid)convertView.getTag();
         }
-
-        // AQuery
-        final AQuery aq = new AQuery(view);
 
         // Album name
         String albumName = mCursor.getString(AlbumsFragment.mAlbumNameIndex);

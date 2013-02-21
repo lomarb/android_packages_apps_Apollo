@@ -1,7 +1,6 @@
 package com.andrew.apollo.tasks;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import com.andrew.apollo.lastfm.api.Artist;
 import com.andrew.apollo.lastfm.api.Image;

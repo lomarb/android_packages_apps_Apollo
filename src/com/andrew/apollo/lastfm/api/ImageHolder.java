@@ -32,8 +32,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import android.util.Log;
-
 import com.andrew.apollo.utils.DomElement;
 
 /**

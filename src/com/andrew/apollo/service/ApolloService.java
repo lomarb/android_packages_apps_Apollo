@@ -20,6 +20,7 @@ import java.lang.ref.WeakReference;
 import java.util.Random;
 import java.util.Vector;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -230,7 +231,8 @@ public class ApolloService extends Service implements GetBitmapTask.OnBitmapRead
 
     private boolean mIsSupposedToBePlaying = false;
 
-    private boolean mQuietMode = false;
+    @SuppressWarnings("unused")
+	private boolean mQuietMode = false;
 
     private AudioManager mAudioManager;
 
@@ -427,7 +429,8 @@ public class ApolloService extends Service implements GetBitmapTask.OnBitmapRead
     public ApolloService() {
     }
 
-    @Override
+    @SuppressLint({ "WorldWriteableFiles", "WorldReadableFiles" })
+	@Override
     public void onCreate() {
         super.onCreate();
 
@@ -1292,8 +1295,6 @@ public class ApolloService extends Service implements GetBitmapTask.OnBitmapRead
                 AudioManager.AUDIOFOCUS_GAIN);
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(),
                 MediaButtonIntentReceiver.class.getName()));
-
-        Bitmap b = getAlbumBitmap();
 
         if (mPlayer.isInitialized()) {
             // if we are at the end of the song, go to the next song first
