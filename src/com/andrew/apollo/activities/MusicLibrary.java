@@ -81,9 +81,7 @@ public class MusicLibrary extends FragmentActivity implements ServiceConnection 
         setContentView(R.layout.library_browser);
         
         // Important!
-        initPager();
-        
-       
+        initPager();  
 
     }
 

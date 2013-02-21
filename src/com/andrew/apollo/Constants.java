@@ -14,7 +14,7 @@ public final class Constants {
 
     // SharedPreferences
     public final static String APOLLO = "Apollo", APOLLO_PREFERENCES = "apollopreferences",
-            ARTIST_KEY = "artist", ALBUM_KEY = "album",
+            ARTIST_KEY = "artist", ALBUM_KEY = "album", NUMALBUMS = "num_albums",
             GENRE_KEY = "genres", ARTIST_ID = "artistid", NUMWEEKS = "numweeks",
             PLAYLIST_NAME_FAVORITES = "Favorites", PLAYLIST_NAME = "playlist",
             THEME_PACKAGE_NAME = "themePackageName", THEME_DESCRIPTION = "themeDescription",

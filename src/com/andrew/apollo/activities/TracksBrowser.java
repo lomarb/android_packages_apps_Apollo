@@ -109,8 +109,7 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (ApolloUtils.isArtist(mimeType) || ApolloUtils.isAlbum(mimeType))
-                setArtistImage();
+        	
         }
 
     };
@@ -212,25 +211,26 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 
         if (ApolloUtils.isArtist(mimeType)) {
             // Get next artist image
+            setArtistImage();
+            findViewById(R.id.half_artist_info_holder).setVisibility(View.VISIBLE);
+
+            // Album name
+            TextView mArtistName = (TextView)findViewById(R.id.half_artist_image_text);
+            mArtistName.setText(getArtist());
+            String numAlbums = MusicUtils.makeAlbumsLabel(this, Integer.parseInt(getNumAlbums()), 0, false);
+            mArtistName = (TextView)findViewById(R.id.half_artist_image_text_line_two);
+            mArtistName.setText(numAlbums);
         } else if (ApolloUtils.isAlbum(mimeType)) {
             // Album image
             setAlbumImage();
-
-            // Artist name
-            TextView mArtistName = (TextView)findViewById(R.id.half_artist_image_text);
-            mArtistName.setVisibility(View.VISIBLE);
-            mArtistName.setText(getArtist());
-            mArtistName.setBackgroundColor(getResources().getColor(R.color.transparent_black));
-
+            findViewById(R.id.half_artist_info_holder).setVisibility(View.VISIBLE);
             // Album name
-            TextView mAlbumName = (TextView)findViewById(R.id.half_album_image_text);
+            TextView mAlbumName = (TextView)findViewById(R.id.half_artist_image_text);
             mAlbumName.setText(getAlbum());
-            mAlbumName.setBackgroundColor(getResources().getColor(R.color.transparent_black));
 
-            // Album half container
-            RelativeLayout mSecondHalfContainer = (RelativeLayout)findViewById(R.id.album_half_container);
-            // Show the second half while viewing an album
-            mSecondHalfContainer.setVisibility(View.VISIBLE);
+            mAlbumName = (TextView)findViewById(R.id.half_artist_image_text_line_two);
+            mAlbumName.setText(getArtist());
+           
         } else {
             // Set the logo
             setPromoImage();
@@ -280,6 +280,15 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
     }
 
     /**
+     * @return number of albums from Bundle
+     */
+    public String getNumAlbums() {
+        if (bundle.getString(NUMALBUMS) != null)
+            return bundle.getString(NUMALBUMS);
+        return getResources().getString(R.string.app_name);
+    }
+
+    /**
      * @return genre name from Bundle
      */
     public String getGenre() {
@@ -319,7 +328,6 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
         ImageUtils.setArtistImage(mFirstHalfImage, getArtist());
 
         mFirstHalfImage.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
@@ -337,9 +345,8 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
      * Cache and set album image
      */
     public void setAlbumImage() {
-
         // Album image
-        final ImageView mSecondHalfImage = (ImageView)findViewById(R.id.half_album_image);
+        final ImageView mSecondHalfImage = (ImageView)findViewById(R.id.half_artist_image);
         ImageUtils.setAlbumImage(mSecondHalfImage, getArtist(), getAlbum());
     }
 
@@ -382,10 +389,10 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
             name = MusicUtils.getPlaylistName(this, id);
         } else if (Audio.Artists.CONTENT_TYPE.equals(mimeType)) {
             id = bundle.getLong(BaseColumns._ID);
-            name = MusicUtils.getArtistName(this, id, true);
+            name =  getString (R.string.artist_page_title)+MusicUtils.getArtistName(this, id, true);
         } else if (Audio.Albums.CONTENT_TYPE.equals(mimeType)) {
             id = bundle.getLong(BaseColumns._ID);
-            name = MusicUtils.getAlbumName(this, id, true);
+            name =  getString (R.string.album_page_title)+MusicUtils.getAlbumName(this, id, true);
         } else if (Audio.Genres.CONTENT_TYPE.equals(mimeType)) {
             id = bundle.getLong(BaseColumns._ID);
             name = MusicUtils.parseGenreName(this, MusicUtils.getGenreName(this, id, true));

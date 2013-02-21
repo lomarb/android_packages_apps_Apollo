@@ -146,7 +146,30 @@
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:scrollHorizontally">true</item>
     </style>
+    
+    <!--  TextView with drop-shadow and white text -->
+    <style name="ShadowedText" parent="AudioPlayerText">        
+	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:shadowDx">1</item>
+	    <item name="android:shadowDy">1</item>
+	    <item name="android:shadowRadius">1.5</item> 
+    </style>
+    
+    <!--  TextView with drop-shadow and white text -->
+    <style name="GridviewShadowedText" parent="GridViewTextItem">        
+	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:shadowDx">1</item>
+	    <item name="android:shadowDy">1</item>
+	    <item name="android:shadowRadius">1.5</item> 
+    </style>
 
+    <!--  Black top border  -->
+    <style name="Topborderline"> 
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">2dp</item>
+	    <item name="android:background">@color/black</item>
+    </style>
+    
     <!-- ImageButton in the audio player controls -->
     <style name="AudioPlayerButton">
         <item name="android:layout_width">0dp</item>

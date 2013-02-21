@@ -139,5 +139,9 @@
 
     <!-- Something went wrong -->
     <string name="error">Error</string>
+    
+    <!-- Titles for Albums/Artist screens -->
+    <string name="artist_page_title">" Artist: "</string>
+    <string name="album_page_title">" Album: "</string>
 
 </resources>

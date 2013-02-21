@@ -3,20 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/black" >
-
         <ImageView
             android:id="@+id/audio_player_album_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
-        
+            android:scaleType="fitXY" />        
+		<View
+		    android:id="@+id/audio_player_text_border"
+		    style="@style/Topborderline"
+            android:layout_above="@+id/audio_player_track_text"
+		    />
 	    <RelativeLayout
+            android:id="@+id/audio_player_track_text"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="@dimen/audio_player_info_container_padding"
@@ -25,49 +28,29 @@
 	        android:paddingBottom="@dimen/audio_player_artwork_padding"
 	        android:layout_alignParentBottom="true" 
 		    android:background="@color/transparent_black"  >
-	
 	        <TextView
 	            android:id="@+id/audio_player_track"
-	            style="@style/AudioPlayerText"
+	            style="@style/ShadowedText"
 	            android:textColor="@color/white"
 	            android:textSize="@dimen/text_size_large"
-	            android:textStyle="bold" 
-	            android:shadowColor="#000000"
-	            android:shadowDx="1"
-	            android:shadowDy="1"
-	            android:shadowRadius="1.5"/>
+	            android:textStyle="bold" />
 	
 	        <TextView
 	            android:id="@+id/audio_player_album_artist"
-	            style="@style/AudioPlayerText"
+	            style="@style/ShadowedText"
 	            android:layout_below="@+id/audio_player_track"
 	            android:textColor="@color/white"
-	            android:textSize="@dimen/text_size_small" 
-	            android:shadowColor="#000000"
-	            android:shadowDx="1"
-	            android:shadowDy="1"
-	            android:shadowRadius="1.5" />
+	            android:textSize="@dimen/text_size_small" />
 	    </RelativeLayout>
      </RelativeLayout>
-
-    <RelativeLayout
+    <View
         android:layout_width="match_parent"
 		android:layout_height="@dimen/colorstrip_height"
-        android:background="@color/holo_blue_dark" >
-		<FrameLayout
-		    android:id="@+id/colorstrip2"
-		    android:layout_width="match_parent"
-		    android:layout_height="@dimen/colorstrip_height"
-		    android:background="@drawable/colorstrip_shadow" 
-		    />
-     </RelativeLayout>
-		<FrameLayout
-		    android:id="@+id/colorstrip3"
-		    android:layout_width="match_parent"
-		    android:layout_height="@dimen/colorstrip_height"
-		    android:background="@drawable/colorstrip_shadow" 
-		    />
-		
+        android:background="@color/holo_blue_dark" />
+	<View
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/colorstrip_height"
+	    android:background="@drawable/colorstrip_shadow" 
+	    />		
     <include layout="@layout/audio_controls" />
-
 </LinearLayout>

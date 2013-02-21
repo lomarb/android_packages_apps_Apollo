@@ -59,7 +59,7 @@
 
     <!-- Half and half layout -->
     <dimen name="half_and_half_text_padding">5dp</dimen>
-    <dimen name="half_and_half_image_height">150dp</dimen>
+    <dimen name="half_and_half_image_height">200dp</dimen>
     <dimen name="half_and_half_container_padding">3dp</dimen>
 
     <!-- ContextMenu header text padding -->
