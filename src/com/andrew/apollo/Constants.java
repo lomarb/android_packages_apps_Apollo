@@ -20,7 +20,8 @@ public final class Constants {
             THEME_PACKAGE_NAME = "themePackageName", THEME_DESCRIPTION = "themeDescription",
             THEME_PREVIEW = "themepreview", THEME_TITLE = "themeTitle",
             UP_STARTS_ALBUM_ACTIVITY = "upStartsAlbumActivity", TABS_ENABLED = "tabs_enabled",
-            ALBUM_SPLITTER="x5362cX", ALBUM_SUFFIX = "albartimg", ARTIST_SUFFIX = "artstimg";
+            ALBUM_SPLITTER="x5362cX", ALBUM_SUFFIX = "albartimg", ARTIST_SUFFIX = "artstimg",
+    		PLAYLIST_SUFFIX = "plylstimg", GENRE_SUFFIX = "gnreimg";
 
     // Bundle & Intent type
     public final static String MIME_TYPE = "mimetype", INTENT_ACTION = "action", DATA_SCHEME = "file";

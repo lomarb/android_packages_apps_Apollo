@@ -20,6 +20,10 @@ public class ImageUtils {
         getImageProvider().setAlbumImage(imageView, artist, album);
     }
     
+    public static void setImageFromGallery(ImageView imageView, String tag, String path){
+        getImageProvider().setImageFromGallery(imageView, tag, path);
+    }
+    
     public static void deleteCache(Context context) throws IOException {
     	final File dir = context.getExternalFilesDir(null);
         final File[] files = dir.listFiles();

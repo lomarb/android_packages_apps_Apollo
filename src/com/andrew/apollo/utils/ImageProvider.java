@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 import com.andrew.apollo.R;
 import com.andrew.apollo.tasks.GetBitmapTask;
+import com.andrew.apollo.tasks.SetBitmapTask;
+
 import static com.andrew.apollo.Constants.ALBUM_SPLITTER;
 import static com.andrew.apollo.Constants.ALBUM_SUFFIX;
 import static com.andrew.apollo.Constants.ARTIST_SUFFIX;
@@ -17,7 +19,8 @@ import static com.andrew.apollo.Constants.ARTIST_KEY;
 
 import java.util.*;
 
-public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener {
+public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener,
+										SetBitmapTask.OnBitmapReadyListener{
 
     private ImageCache memCache = new ImageCache(ImageCache.DEFAULT_SIZE);
 
@@ -41,6 +44,19 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener {
         if (!setCachedBitmap(imageView, tag)) {        	
             asyncLoad(tag, imageView, new GetBitmapTask(ALBUM_KEY, new String[]{artist,album}, this, imageView.getContext()));
         }
+    }
+    
+    public void setImageFromGallery(ImageView imageView, String tag, String path){
+    	SetBitmapTask task = new SetBitmapTask(path, tag, this, imageView.getContext());
+    	Set<ImageView> pendingImages = pendingImagesMap.get(tag);
+        if (pendingImages == null) {
+            pendingImages = Collections.newSetFromMap(new WeakHashMap<ImageView, Boolean>()); // create weak set
+            pendingImagesMap.put(tag, pendingImages);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        pendingImages.add(imageView);
+        imageView.setTag(tag);
+        imageView.setImageDrawable(null);
     }
 
     private boolean setCachedBitmap(ImageView imageView, String tag) {

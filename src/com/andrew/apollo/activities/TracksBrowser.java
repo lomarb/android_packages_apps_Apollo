@@ -9,12 +9,15 @@ import android.app.SearchManager;
 import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.BaseColumns;
+import android.provider.MediaStore;
 import android.provider.MediaStore.Audio;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -152,9 +155,30 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == Activity.RESULT_OK && requestCode == RESULT_LOAD_IMAGE  && data != null)
-        {
-        	
-        }
+	    {
+        	Uri selectedImage = data.getData();
+	        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+	        Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+	        cursor.moveToFirst();
+	        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+	        String picturePath = cursor.getString(columnIndex);
+	        cursor.close();
+	        
+	        String tag = "";            
+	        if (Audio.Artists.CONTENT_TYPE.equals(mimeType)) { 
+	        	tag = getArtist()+ARTIST_SUFFIX;
+	        } else if (Audio.Albums.CONTENT_TYPE.equals(mimeType)) {
+	        	tag = getAlbum() + ALBUM_SPLITTER + getArtist() + ALBUM_SUFFIX;
+	        } else if (Audio.Playlists.CONTENT_TYPE.equals(mimeType)) {
+	        	tag = bundle.getString(PLAYLIST_NAME) + PLAYLIST_SUFFIX;
+	        }
+	        else{ 
+	        	Long id = bundle.getLong(BaseColumns._ID);
+	        	tag = MusicUtils.parseGenreName(this, MusicUtils.getGenreName(this, id, true)) + GENRE_SUFFIX;
+	        	tag += GENRE_SUFFIX;
+	        }
+	        ImageUtils.setImageFromGallery( (ImageView)findViewById(R.id.half_artist_image), tag, picturePath );
+	    }
     }
 
     @Override
