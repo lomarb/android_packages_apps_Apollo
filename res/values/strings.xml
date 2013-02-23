@@ -84,6 +84,16 @@
     <string name="delete_playlist">Delete playlist</string>
     <string name="search">Search</string>
     <string name="remove">Remove from playlist</string>
+    <string name="image_edit_gallery">New image from gallery</string>
+    <string name="image_edit_file">Original image from file</string>
+    <string name="image_edit_lastfm">Fetch image from last.fm</string>
+    <string name="image_edit_web">Search the web for an image</string>
+    
+    <!--  ContextMenu Headers -->
+    <string name="image_edit_albums">Edit Album Artwork</string>
+    <string name="image_edit_artists">Edit Artist Image</string>
+    <string name="image_edit_genre">Edit Genre Image</string>
+    <string name="image_edit_playlist">Edit Playlist Image</string>
 
     <!-- App Widgets -->
     <string name="apollo_1x1">Apollo (1x1)</string>

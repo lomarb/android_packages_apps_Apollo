@@ -4,6 +4,8 @@
 
 package com.andrew.apollo.activities;
 
+import android.app.Activity;
+import android.app.SearchManager;
 import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -16,6 +18,7 @@ import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -49,6 +52,8 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
     private String mimeType;
 
     private ServiceToken mToken;
+    
+    private int RESULT_LOAD_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -62,6 +67,7 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 
         // Layout
         setContentView(R.layout.track_browser);
+        registerForContextMenu(findViewById(R.id.half_artist_image));
 
         // Important!
         whatBundle(icicle);
@@ -78,6 +84,77 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
         // Important!
         initPager();
 
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    	if (Audio.Artists.CONTENT_TYPE.equals(mimeType)) {
+    		
+        	menu.setHeaderTitle(R.string.image_edit_artists);
+        	getMenuInflater().inflate(R.menu.context_artistimage, menu); 
+        	
+        } else if (Audio.Albums.CONTENT_TYPE.equals(mimeType)) {
+        	
+        	menu.setHeaderTitle(R.string.image_edit_albums);
+        	getMenuInflater().inflate(R.menu.context_albumimage, menu); 
+        	
+        } else if (Audio.Playlists.CONTENT_TYPE.equals(mimeType)) {
+        	
+        	menu.setHeaderTitle(R.string.image_edit_playlist);
+        	getMenuInflater().inflate(R.menu.context_playlist_genreimage, menu); 
+        	
+        }
+        else{
+        	
+        	menu.setHeaderTitle(R.string.image_edit_genre);
+        	getMenuInflater().inflate(R.menu.context_playlist_genreimage, menu); 
+        	
+        }
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.image_edit_gallery:
+            	Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            	startActivityForResult(i, RESULT_LOAD_IMAGE);
+            	return true;
+            case R.id.image_edit_file:
+                return true;
+            case R.id.image_edit_lastfm:
+                return true;
+            case R.id.image_edit_web:
+            	onSearchWeb();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+    
+    public void onSearchWeb(){
+    	String query = "";
+    	if (Audio.Artists.CONTENT_TYPE.equals(mimeType)) {
+    		query = getArtist();
+        } else if (Audio.Albums.CONTENT_TYPE.equals(mimeType)) {
+        	query = getAlbum() + " " + getArtist();
+        } else if (Audio.Playlists.CONTENT_TYPE.equals(mimeType)) {
+        	query = bundle.getString(PLAYLIST_NAME);
+        }
+        else{
+            Long id = bundle.getLong(BaseColumns._ID);
+            query = MusicUtils.parseGenreName(this, MusicUtils.getGenreName(this, id, true));
+        }
+        final Intent googleSearch = new Intent(Intent.ACTION_WEB_SEARCH);
+        googleSearch.putExtra(SearchManager.QUERY, query);
+        startActivity(googleSearch);	
+    }
+    
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK && requestCode == RESULT_LOAD_IMAGE  && data != null)
+        {
+        	
+        }
     }
 
     @Override
