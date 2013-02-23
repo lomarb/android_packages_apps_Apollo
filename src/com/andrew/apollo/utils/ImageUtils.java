@@ -24,6 +24,14 @@ public class ImageUtils {
         getImageProvider().setImageFromGallery(imageView, tag, path);
     }
     
+    public static void setImageFromLastFM(ImageView imageView, String[] tags){
+    	 getImageProvider().setImageFromLastFM_File(imageView, tags);
+    }
+    
+    public static void setImageFromFile(ImageView imageView, String[] tags){
+    	getImageProvider().setImageFromLastFM_File(imageView, tags);
+    }
+    
     public static void deleteCache(Context context) throws IOException {
     	final File dir = context.getExternalFilesDir(null);
         final File[] files = dir.listFiles();

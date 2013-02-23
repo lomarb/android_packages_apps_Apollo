@@ -62,6 +62,23 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
             return null;
         }
 
+        if(( mTags.length == 2 && mType.equals("artist") ) ||
+        		( mTags.length > 2 && mType.equals("album") )){
+        	File nFile = null;
+        	if( mType.equals("album") && mTags[2].equals("file") ){
+        		Log.e("TEST", "HERE I AMMMMMMMMMM");
+        		nFile  = findMediaStoreFile(context);
+        	}
+        	else
+        		nFile = downloadImage(context);
+        	
+            if (nFile == null) {
+                return null;
+            }
+            Bitmap bitmap = BitmapFactory.decodeFile(nFile.getAbsolutePath());
+            return bitmap;
+        }
+        
         File file = findCachedFile(context);
         
         if(file == null && mType.equals("album"))
@@ -85,7 +102,7 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
     }
     
     private File findMediaStoreFile(Context context){
-    	String mAlbum = mTags[0];
+    	String mAlbum = mTags[1];
     	String[] projection = {
                 BaseColumns._ID, Audio.Albums._ID, Audio.Albums.ALBUM_ART, Audio.Albums.ALBUM
         };
@@ -121,6 +138,7 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
     }
 
     protected String getImageUrl() {
+
         try {
 	        if(mType.equals("album")){    
 	        	

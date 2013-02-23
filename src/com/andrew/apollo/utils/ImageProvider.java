@@ -46,8 +46,35 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener,
         }
     }
     
-    public void setImageFromGallery(ImageView imageView, String tag, String path){    	
+    public void setImageFromLastFM_File(ImageView imageView, String[] tags){
+    	String tag = "", type = "";
+    	if( tags.length <= 2 ){
+            tag = tags[0] + ARTIST_SUFFIX;
+            type = ARTIST_KEY;
+    	}
+    	else{
+    		tag = tags[0] + ALBUM_SPLITTER + tags[1] + ALBUM_SUFFIX;
+            type = ALBUM_KEY;
+    	}
+    	clearMemoryCache(tag);
+    	asyncLoad(tag, imageView, new GetBitmapTask(type, tags, this, imageView.getContext()));
+    }
+    
+    public void setImageFromGallery(ImageView imageView, String tag, String path){
+    	clearMemoryCache(tag);    	
         asyncLoad(tag, imageView, new SetBitmapTask(path, tag, this, imageView.getContext()));
+    }
+    
+    public void clearMemoryCache(String tag){
+        if (unavailable.contains(tag)) {
+        	unavailable.remove(tag);
+        }
+        if (pendingImagesMap.get(tag)!=null){
+        	pendingImagesMap.remove(tag);
+        }
+        if (memCache.get(tag)!=null){
+        	memCache.remove(tag);
+        }
     }
 
     private boolean setCachedBitmap(ImageView imageView, String tag) {

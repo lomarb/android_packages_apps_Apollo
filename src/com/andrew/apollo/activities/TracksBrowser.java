@@ -117,14 +117,23 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
     
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+    	String[] tags = null;      
         switch (item.getItemId()) {
             case R.id.image_edit_gallery:
             	Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             	startActivityForResult(i, RESULT_LOAD_IMAGE);
             	return true;
             case R.id.image_edit_file:
+            	tags = new String[]{ getArtist(), getAlbum(), "file" };
+            	ImageUtils.setImageFromFile((ImageView)findViewById(R.id.half_artist_image), tags);
                 return true;
-            case R.id.image_edit_lastfm:
+            case R.id.image_edit_lastfm:      
+    	        if (Audio.Artists.CONTENT_TYPE.equals(mimeType)) { 
+    	        	tags = new String[]{ getArtist(), "lastfm" };
+    	        } else if (Audio.Albums.CONTENT_TYPE.equals(mimeType)) {
+    	        	tags = new String[]{ getArtist(), getAlbum(), "lastfm" };
+    	        } 
+    	        ImageUtils.setImageFromLastFM((ImageView)findViewById(R.id.half_artist_image), tags);
                 return true;
             case R.id.image_edit_web:
             	onSearchWeb();
