@@ -168,7 +168,7 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 	        if (Audio.Artists.CONTENT_TYPE.equals(mimeType)) { 
 	        	tag = getArtist()+ARTIST_SUFFIX;
 	        } else if (Audio.Albums.CONTENT_TYPE.equals(mimeType)) {
-	        	tag = getAlbum() + ALBUM_SPLITTER + getArtist() + ALBUM_SUFFIX;
+	        	tag = getArtist() + ALBUM_SPLITTER + getAlbum() + ALBUM_SUFFIX;
 	        } else if (Audio.Playlists.CONTENT_TYPE.equals(mimeType)) {
 	        	tag = bundle.getString(PLAYLIST_NAME) + PLAYLIST_SUFFIX;
 	        }

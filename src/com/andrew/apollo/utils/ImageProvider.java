@@ -46,17 +46,8 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener,
         }
     }
     
-    public void setImageFromGallery(ImageView imageView, String tag, String path){
-    	SetBitmapTask task = new SetBitmapTask(path, tag, this, imageView.getContext());
-    	Set<ImageView> pendingImages = pendingImagesMap.get(tag);
-        if (pendingImages == null) {
-            pendingImages = Collections.newSetFromMap(new WeakHashMap<ImageView, Boolean>()); // create weak set
-            pendingImagesMap.put(tag, pendingImages);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-        pendingImages.add(imageView);
-        imageView.setTag(tag);
-        imageView.setImageDrawable(null);
+    public void setImageFromGallery(ImageView imageView, String tag, String path){    	
+        asyncLoad(tag, imageView, new SetBitmapTask(path, tag, this, imageView.getContext()));
     }
 
     private boolean setCachedBitmap(ImageView imageView, String tag) {
@@ -91,7 +82,7 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener,
         transition.startTransition(duration);
     }
 
-    private void asyncLoad(String tag, ImageView imageView, GetBitmapTask task) {
+    private void asyncLoad(String tag, ImageView imageView, AsyncTask<String, Integer, Bitmap> task) {
         Set<ImageView> pendingImages = pendingImagesMap.get(tag);
         if (pendingImages == null) {
             pendingImages = Collections.newSetFromMap(new WeakHashMap<ImageView, Boolean>()); // create weak set
