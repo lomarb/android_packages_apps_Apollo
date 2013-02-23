@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.andrew.apollo.utils.DomElement;
-import com.andrew.apollo.utils.MapUtilities;
 import com.andrew.apollo.utils.StringUtilities;
 
 
@@ -93,7 +92,9 @@ public class Album extends MusicEntry {
             params.put("artist", artist);
             params.put("album", albumOrMbid);
         }
-        MapUtilities.nullSafePut(params, "username", username);
+        if (username != null) {
+        	params.put("username", username);
+		}
         Result result = Caller.getInstance().call("album.getInfo", apiKey, params);
         return ResponseBuilder.buildItem(result, Album.class);
     }

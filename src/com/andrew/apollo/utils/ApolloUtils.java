@@ -16,9 +16,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -293,20 +291,4 @@ public class ApolloUtils {
         mToast.show();
     }
 
-    /**
-     * @param context
-     * @return meow
-     */
-    public static AnimationDrawable getNyanCat(Context context) {
-        final AnimationDrawable animation = new AnimationDrawable();
-        for (int i = 0; i < 12; i++) {
-            try {
-                animation.addFrame(Drawable.createFromStream(
-                        context.getAssets().open("Frame" + i + ".png"), null), 75);
-            } catch (IOException e) {
-            }
-        }
-        animation.setOneShot(false);
-        return animation;
-    }
 }

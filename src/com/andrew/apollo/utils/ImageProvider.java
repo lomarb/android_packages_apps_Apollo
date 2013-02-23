@@ -8,9 +8,12 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 import com.andrew.apollo.R;
-import com.andrew.apollo.tasks.GetAlbumImageTask;
-import com.andrew.apollo.tasks.GetArtistImageTask;
 import com.andrew.apollo.tasks.GetBitmapTask;
+import static com.andrew.apollo.Constants.ALBUM_SPLITTER;
+import static com.andrew.apollo.Constants.ALBUM_SUFFIX;
+import static com.andrew.apollo.Constants.ARTIST_SUFFIX;
+import static com.andrew.apollo.Constants.ALBUM_KEY;
+import static com.andrew.apollo.Constants.ARTIST_KEY;
 
 import java.util.*;
 
@@ -27,16 +30,16 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener {
     }
 
     public void setArtistImage(ImageView imageView, String artist) {
-        String tag = getArtistTag(artist);
+        String tag = artist + ARTIST_SUFFIX;
         if (!setCachedBitmap(imageView, tag)) {
-            asyncLoad(tag, imageView, new GetArtistImageTask(artist, this, tag, imageView.getContext()));
+            asyncLoad(tag, imageView, new GetBitmapTask(ARTIST_KEY, new String[]{artist}, this, imageView.getContext()));
         }
     }
 
     public void setAlbumImage(ImageView imageView, String artist, String album) {
-        String tag = getAlbumTag(artist, album);
-        if (!setCachedBitmap(imageView, tag)) {
-            asyncLoad(tag, imageView, new GetAlbumImageTask(artist, album, this, tag, imageView.getContext()));
+        String tag = artist + ALBUM_SPLITTER + album + ALBUM_SUFFIX;
+        if (!setCachedBitmap(imageView, tag)) {        	
+            asyncLoad(tag, imageView, new GetBitmapTask(ALBUM_KEY, new String[]{artist,album}, this, imageView.getContext()));
         }
     }
 
@@ -82,14 +85,6 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener {
         pendingImages.add(imageView);
         imageView.setTag(tag);
         imageView.setImageDrawable(null);
-    }
-
-    private String getArtistTag(String artist) {
-        return artist;
-    }
-
-    private String getAlbumTag(String artist, String album) {
-        return artist + " - " + album;
     }
 
     @Override

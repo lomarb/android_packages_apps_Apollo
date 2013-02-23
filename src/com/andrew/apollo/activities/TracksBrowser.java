@@ -9,18 +9,15 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,8 +49,6 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
     private String mimeType;
 
     private ServiceToken mToken;
-
-    private final long[] mHits = new long[3];
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -210,7 +205,8 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 
         if (ApolloUtils.isArtist(mimeType)) {
             // Get next artist image
-            setArtistImage();
+            final ImageView mFirstHalfImage = (ImageView)findViewById(R.id.half_artist_image);
+            ImageUtils.setArtistImage(mFirstHalfImage, getArtist());
             findViewById(R.id.half_artist_info_holder).setVisibility(View.VISIBLE);
 
             // Album name
@@ -221,8 +217,10 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
             mArtistName.setText(numAlbums);
         } else if (ApolloUtils.isAlbum(mimeType)) {
             // Album image
-            setAlbumImage();
+            final ImageView mSecondHalfImage = (ImageView)findViewById(R.id.half_artist_image);
+            ImageUtils.setAlbumImage(mSecondHalfImage, getArtist(), getAlbum());
             findViewById(R.id.half_artist_info_holder).setVisibility(View.VISIBLE);
+            
             // Album name
             TextView mAlbumName = (TextView)findViewById(R.id.half_artist_image_text);
             mAlbumName.setText(getAlbum());
@@ -315,38 +313,6 @@ public class TracksBrowser extends FragmentActivity implements ServiceConnection
 
         Bitmap header = BitmapFactory.decodeResource(getResources(), R.drawable.promo);
         ApolloUtils.runnableBackground(mFirstHalfImage, header);
-    }
-
-    /**
-     * Cache and set artist image
-     */
-    public void setArtistImage() {
-
-        // Artist image & Genre image
-        final ImageView mFirstHalfImage = (ImageView)findViewById(R.id.half_artist_image);
-        ImageUtils.setArtistImage(mFirstHalfImage, getArtist());
-
-        mFirstHalfImage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
-                mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-                if (mHits[0] >= (SystemClock.uptimeMillis() - 250)) {
-                    AnimationDrawable meow = ApolloUtils.getNyanCat(TracksBrowser.this);
-                    mFirstHalfImage.setImageDrawable(meow);
-                    meow.start();
-                }
-            }
-        });
-    }
-
-    /**
-     * Cache and set album image
-     */
-    public void setAlbumImage() {
-        // Album image
-        final ImageView mSecondHalfImage = (ImageView)findViewById(R.id.half_artist_image);
-        ImageUtils.setAlbumImage(mSecondHalfImage, getArtist(), getAlbum());
     }
 
     /**

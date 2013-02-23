@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 /**
  * Reflection utils to call SharedPreferences$Editor.apply when possible,
@@ -35,6 +36,7 @@ public class SharedPreferencesCompat {
             return cls.getMethod("apply");
         } catch (NoSuchMethodException unused) {
             //$FALL-THROUGH$
+        	Log.e("TESTER", "no shared apply method");
         }
         return null;
     }
@@ -46,8 +48,10 @@ public class SharedPreferencesCompat {
                 return;
             } catch (InvocationTargetException unused) {
                 //$FALL-THROUGH$
+            	Log.e("TESTER", "Failed to invoke target");
             } catch (IllegalAccessException unused) {
                 //$FALL-THROUGH$
+            	Log.e("TESTER", "Illegal access exception");
             }
         }
         editor.commit();

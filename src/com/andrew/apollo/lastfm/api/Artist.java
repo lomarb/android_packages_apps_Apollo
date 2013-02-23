@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.andrew.apollo.utils.DomElement;
-import com.andrew.apollo.utils.MapUtilities;
 import com.andrew.apollo.utils.StringUtilities;
 
 /**
@@ -82,8 +81,12 @@ public class Artist extends MusicEntry {
         } else {
             params.put("artist", artistOrMbid);
         }
-        MapUtilities.nullSafePut(params, "page", page);
-        MapUtilities.nullSafePut(params, "limit", limit);
+        if (page != -1) {
+        	params.put("page", Integer.toString(page));
+		}
+        if (limit != -1) {
+        	params.put("limit", Integer.toString(limit));
+		}     
         Result result = Caller.getInstance().call("artist.getImages", apiKey, params);
         return ResponseBuilder.buildPaginatedResult(result, Image.class);
     }

@@ -69,13 +69,15 @@ import com.andrew.apollo.R;
 import com.andrew.apollo.app.widgets.AppWidget11;
 import com.andrew.apollo.app.widgets.AppWidget41;
 import com.andrew.apollo.app.widgets.AppWidget42;
-import com.andrew.apollo.tasks.GetAlbumImageTask;
 import com.andrew.apollo.tasks.GetBitmapTask;
 import com.andrew.apollo.utils.MusicUtils;
 import com.andrew.apollo.utils.SharedPreferencesCompat;
 
 import static com.andrew.apollo.Constants.APOLLO_PREFERENCES;
 import static com.andrew.apollo.Constants.DATA_SCHEME;
+import static com.andrew.apollo.Constants.ALBUM_KEY;
+import static com.andrew.apollo.Constants.ALBUM_SPLITTER;
+import static com.andrew.apollo.Constants.ALBUM_SUFFIX;
 
 public class ApolloService extends Service implements GetBitmapTask.OnBitmapReadyListener {
     /**
@@ -1819,13 +1821,13 @@ public class ApolloService extends Service implements GetBitmapTask.OnBitmapRead
         if (mCursor == null)
             return;
 
-        String tag = getArtistName() + " - " + getAlbumName();
+        String tag = getArtistName() + ALBUM_SPLITTER + getAlbumName() + ALBUM_SUFFIX;
         if (tag == mAlbumBitmapTag)
             return;
 
         mAlbumBitmapTag = tag;
         mAlbumBitmap = null;
-        new GetAlbumImageTask(getArtistName(), getAlbumName(), this, tag, this).execute();
+        new GetBitmapTask(ALBUM_KEY, new String[]{getArtistName(), getAlbumName()}, this, this).execute();
     }
 
     @Override
