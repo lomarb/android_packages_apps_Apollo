@@ -24,12 +24,6 @@
                 android:layout_height="200dp"
                 android:scaleType="centerCrop" />
 
-            
-	        <View
-			    android:id="@+id/audio_player_text_border"
-			    style="@style/Topborderline"
-	            android:layout_alignTop="@+id/half_artist_info_holder"
-			    />
 			<LinearLayout
 		        android:id="@+id/half_artist_info_holder"
 		        android:layout_width="match_parent"
@@ -56,6 +50,7 @@
 	        
 		    <RelativeLayout
 		        android:layout_width="fill_parent"
+		        android:id="@+id/bottom_colorstrip"
 	            android:layout_alignBottom="@+id/half_artist_image"
 				android:layout_height="@dimen/colorstrip_height"
 		        android:background="@color/holo_blue_dark" />

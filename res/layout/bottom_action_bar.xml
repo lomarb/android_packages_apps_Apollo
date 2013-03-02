@@ -14,7 +14,7 @@
         android:background="@color/holo_blue_dark"
         tools:ignore="ContentDescription" />
 
-    <com.andrew.apollo.ui.widgets.BottomActionBar
+    <com.andrew.apolloMod.ui.widgets.BottomActionBar
         android:id="@+id/bottom_action_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,6 +68,6 @@
             android:contentDescription="@string/cd_next"
             android:src="@drawable/apollo_holo_light_next" />        
         
-    </com.andrew.apollo.ui.widgets.BottomActionBar>
+    </com.andrew.apolloMod.ui.widgets.BottomActionBar>
 
 </LinearLayout>
