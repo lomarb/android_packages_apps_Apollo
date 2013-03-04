@@ -11,7 +11,7 @@
                 android:summary="@string/apollo_themes"
                 android:title="@string/select_theme" />
 
-            <com.andrew.apolloMod.preferences.ThemePreview
+            <com.andrew.apollo.preferences.ThemePreview
                 android:key="@string/key_themes"
                 android:layout="@layout/theme_preview" />
         </PreferenceScreen>

@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true" >
 
         
-        <fragment android:name="com.andrew.apolloMod.ui.fragments.BottomActionBarFragment"
+        <fragment android:name="com.andrew.apollo.BottomActionBarFragment"
             android:id="@+id/bottomactionbar_new"
             android:layout_weight="1"
 			android:layout_width="match_parent"
